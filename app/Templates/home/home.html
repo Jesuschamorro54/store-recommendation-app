@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+
+{% block banner %}
+<div class="banner">
+    <div class="content">
+        <img src="{{url_for('static', filename='img/banner.webp')}}">
+
+        <div class="input-group">
+            <input class="form-control" type="search" id="bannerSearch" placeholder="Buscar tiendas">
+            <button class="btn btn-outline-secondary" type="button"><i class="bi bi-search"></i></button>
+        </div>
+        
+        
+    </div>
+</div>
+{% endblock %}

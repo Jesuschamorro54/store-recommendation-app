@@ -1,0 +1,24 @@
+:root {
+    /* Text */
+    --primary-textcolor-to-light: #140330;
+    --primary-textcolor-to-normal: #140330;
+    --primary-textcolor-to-dark: white;
+
+    /* Background */
+    --primary-color-light: #c29ffa;
+    --primary-color-normal: #a370f7;
+    --primary-color-dark: #3d0a91;
+
+    --secondary-color-light: #ffda6a;
+    --secondary-color-normal: #ffcd39;
+    --secondary-color-dark: #ffc107;
+
+}
+
+h1, h2, 
+h3, h4,
+p {
+    font-family: 'Oswald', sans-serif !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}

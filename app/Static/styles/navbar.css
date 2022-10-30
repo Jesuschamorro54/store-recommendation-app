@@ -1,0 +1,50 @@
+/* @import "./root.css"; */
+
+.navbar {
+    background-color: var(--primary-color-dark);
+    -webkit-box-shadow: 0px 3px 9px 3px rgba(61,10,145,0.39);
+    -moz-box-shadow: 0px 3px 9px 3px rgba(61,10,145,0.39);
+    box-shadow: 0px 3px 9px 3px rgba(61,10,145,0.39);
+    z-index: 8;
+}
+
+.navbar 
+.container-fluid 
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: var(--primary-textcolor-to-dark) !important;
+}
+
+.navbar img {
+    width: 50px;
+}
+
+
+/* Navbar Buttons */
+.navbar .btn-group .btn-outline-orange {
+    color: var(--primary-textcolor-to-dark);
+    border: 1px solid var(--secondary-color-dark);
+    border-radius: 4px !important;
+    background-color: transparent;
+    margin: 0 10px !important;
+    transition: all 300ms;
+}
+
+.navbar .btn-group .btn-outline-orange:hover {
+    color: var(--primary-textcolor-to-legth);
+    background-color: var(--secondary-color-dark);
+}
+
+.navbar .btn-group .btn-outline-white {
+    color: var(--primary-textcolor-to-ligth);
+    background-color: white;
+    border-radius: 4px !important;
+    transition: all 300ms;
+}
+
+.navbar .btn-group .btn-outline-white:hover {
+    color: var(--primary-textcolor-to-legth);
+    background-color: var(--secondary-color-dark);
+}
