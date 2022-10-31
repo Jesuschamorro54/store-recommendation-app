@@ -28,27 +28,27 @@
 
 /* Navbar Buttons */
 .navbar .btn-group .btn-outline-orange {
-    color: var(--primary-textcolor-to-dark);
-    border: 1px solid var(--secondary-color-dark);
+    color: var(--primary-textcolor-to-dark) !important;
+    border: 1px solid var(--secondary-color-dark) !important;
     border-radius: 4px !important;
-    background-color: transparent;
+    background-color: transparent !important;
     margin: 0 10px !important;
     transition: all 300ms;
 }
 
 .navbar .btn-group .btn-outline-orange:hover {
-    color: var(--primary-textcolor-to-legth);
-    background-color: var(--secondary-color-dark);
+    color: var(--primary-textcolor-to-legth) !important;
+    background-color: var(--secondary-color-dark) !important;
 }
 
 .navbar .btn-group .btn-outline-white {
-    color: var(--primary-textcolor-to-ligth);
-    background-color: white;
+    color: var(--primary-textcolor-to-ligth) !important;
+    background-color: white !important;
     border-radius: 4px !important;
-    transition: all 300ms;
+    transition: all 300ms !important;
 }
 
 .navbar .btn-group .btn-outline-white:hover {
-    color: var(--primary-textcolor-to-legth);
-    background-color: var(--secondary-color-dark);
+    color: var(--primary-textcolor-to-legth) !important;
+    background-color: var(--secondary-color-dark) !important;
 }

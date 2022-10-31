@@ -7,7 +7,7 @@
 
         <div class="input-group">
             <input class="form-control" type="search" id="bannerSearch" placeholder="Buscar tiendas">
-            <button class="btn btn-outline-secondary" type="button"><i class="bi bi-search"></i></button>
+            <button class="btn btn-warning" type="button"><i class="bi bi-search"></i></button>
         </div>
     </div>
 </div>
@@ -16,7 +16,7 @@
 
     <h3 class="text-center" style="margin-bottom: 20px !important;">Tiendas más destacadas por nuestro publico</h3>
 
-    <div class="row content-fluid justify-content-md-center cards3">
+    <div class="row content-fluid justify-content-md-center cards3" style="justify-content: center;">
         
         {% for id in [0,1,2,3] %}
         <div class="card" style="width: 18rem;">
@@ -37,13 +37,33 @@
 
 
 <div class="section-map">
-    <h3>Busca un lugar cerca de ti</h3>
+    <h3 class="text-center" style="margin-bottom: 10px !important;">Busca un lugar cercano</h3>
 
-    <div class="map-content">
+    <div class="map-content content-fluid">
         <!--The div element for the map -->
         <div id="map"></div>
 
-        <form action=""></form>
+        <div class="result-stores">
+            <div class="list-group">
+
+                {% for i in [0,1,2,3,4,5,6,7] %}
+                <a href="#" class="list-group-item list-group-item-action" style="display: flex;">
+                    <img src="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F6%2F2018%2F08%2Fsimp_homersingle08_f_hires2-2000.jpg&q=60" width="115">
+                    <div class="body-content" style="width: 100%;">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Store Name</h5>
+                            <small>Calle 68a 16c 03</small>
+                        </div>
+                        <p class="mb-1">Lo mejor en ropa clasica para ti!</p>
+                        <small>Valiración:  5</small>
+                    </div>
+                  
+                </a>
+                {% endfor %}
+                
+                
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

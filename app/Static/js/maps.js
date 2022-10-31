@@ -63,7 +63,10 @@ function initMap() {
 }
 
 function currentLocation() {
+
   let infoWindow = new google.maps.InfoWindow();
+  const element = document.getElementById("map")
+  element.scrollIntoView({ behavior: 'smooth', block: 'start' })
   
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(

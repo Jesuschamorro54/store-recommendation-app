@@ -1,0 +1,10 @@
+button {
+    margin-top: 10px !important;
+    background-color: var(--primary-color-dark) !important;
+    transition: all 200ms !important;
+    border: none !important
+}
+
+button:hover {
+    background-color: var(--primary-color-hover) !important;
+}

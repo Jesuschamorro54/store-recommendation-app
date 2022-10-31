@@ -8,12 +8,34 @@
     --primary-color-light: #c29ffa;
     --primary-color-normal: #a370f7;
     --primary-color-dark: #3d0a91;
+    --primary-color-hover: #5e33a1;
 
     --secondary-color-light: #ffda6a;
     --secondary-color-normal: #ffcd39;
     --secondary-color-dark: #ffc107;
 
 }
+
+::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: var(--primary-color-dark); 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color-hover); 
+  }
 
 h1, h2, 
 h3, h4,
