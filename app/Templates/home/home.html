@@ -18,15 +18,15 @@
 
     <div class="row content-fluid justify-content-md-center cards3" style="justify-content: center;">
         
-        {% for id in [0,1,2,3] %}
+        {% for store in stores %}
         <div class="card" style="width: 18rem;">
             
-            <img src="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F6%2F2018%2F08%2Fsimp_homersingle08_f_hires2-2000.jpg&q=60" class="card-img-top" alt="...">
+            <img src="{{store['image']}}" class="card-img-top" alt="...">
 
             <div class="card-body">
-              <h5 class="card-title text-justify">Card title</h5>
-              <p class="card-text text-justify">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <div class="text-center"><a href="#" class="btn btn-primary">Go somewhere</a></div>
+              <h5 class="card-title text-justify">{{store['name']}}</h5>
+              <p class="card-text text-justify">{{store['description']}}</p>
+              <div class="text-center"><a href="#" class="btn btn-primary">Explorar</a></div>
             </div>
 
         </div>

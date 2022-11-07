@@ -14,6 +14,13 @@ function initMap() {
     zoom: 10,
     mapTypeControl: false,
   });
+
+  marker = new google.maps.Marker({
+    map,
+  });
+
+  marker.setPosition({ lat: 12, lng: -74.78350982480481 });
+  marker.setMap(map);
   geocoder = new google.maps.Geocoder();
 
   const inputText = document.createElement("input");
@@ -44,10 +51,6 @@ function initMap() {
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputText);
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(submitButton);
   // map.controls[google.maps.ControlPosition.LEFT_TOP].push(responseDiv);
-
-  marker = new google.maps.Marker({
-    map,
-  });
 
   map.addListener("click", (e) => {
     geocode({ location: e.latLng });
@@ -122,6 +125,21 @@ function geocode(request) {
   }).catch((e) => {
     alert("Geocode was not successful for the following reason: " + e);
   });
+}
+
+// Check if it is into the radius
+function arePointsNear(checkPoint, centerPoint, radio) {
+  var my = 40000 / 360;
+  var mx = Math.cos(Math.PI * centerPoint.lat / 180.0) * my;
+
+  var dx = Math.abs(centerPoint.lng - checkPoint.lng) * mx; // cateto x
+  var dy = Math.abs(centerPoint.lat - checkPoint.lat) * my; // cateto y
+  
+  // Formula de pitagoras
+  // Para que el numero me de en metros se multiplica por 1000
+  var result = Math.sqrt((dx * dx) + (dy * dy)) * 1000; 
+  
+  return result <= radio
 }
 
 window.initMap = initMap;

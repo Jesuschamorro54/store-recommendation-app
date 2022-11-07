@@ -1,18 +1,26 @@
+import json
 from flask import ( escape, render_template, redirect, blueprints, session, request, jsonify, url_for,)
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from database import database as db
+from database.database import insert, search, update
 
 main = blueprints.Blueprint('main', __name__)
 
 @main.context_processor
 def general_variables():
-    return { 'appName': 'App Name' }
+    return { 'appName': 'Mega store' }
 
 @main.context_processor
 def login_acc():
     if 'acc' in session:
-        return {'userSession': True}
+
+        user = {
+            'userId': session['id'],
+            'userSession': True,
+            'userRole': session['role'],
+        }
+
+        return user
     else:
         return {'userSession':False}
 
@@ -25,40 +33,50 @@ def index():
 
 @main.route('/home')
 def home():
-    return render_template('/home/home.html')
 
+    stores = search('stores')
 
-# @main.route('/registrar')
-# def sign_in_view():
-#     return render_template('/auth/sign_in.html')
+    return render_template('/home/home.html', stores = stores)
 
-@main.route('/login')
-def login_view():
-    return render_template('/auth/login.html')
+@main.route('/associate', methods=['GET'])
+def associate():
+    return render_template('/owner/associate.html')
 
 
 
-# METHODS ------------------------------------------------------------------------------------------
+# METHODS AUTH ------------------------------------------------------------------------------------------
 
 @main.route('/login/', methods=['GET', 'POST'])
 def login():
     
+    params = dict(request.form)
+    valid = False
+
+    for key, value in params.items():
+        valid = bool(value)
+
     if request.method == 'POST':
-        usr_email = escape(request.form['usr_email'])
-        usr_password = escape(request.form['usr_password'])
-        info_user = db.search(usr_email)
-        if info_user is not None:
-            usr_password = usr_password + usr_email
-            vpw = check_password_hash(info_user[3], usr_password)
-            if(vpw):
-                session['id'] = info_user[0]
-                session['usr_name'] = info_user[1]
-                session['usr_email'] = info_user[2]
-                session['usr_rol'] = info_user[4]
+        
+        email = params['email']
+        password = params.pop('password')
+
+        user = search('users', params)[0]
+        
+        if user:
+            
+            password = password + email
+            vpw = check_password_hash(user['password'] , password)
+
+            if vpw:
+                session['id'] = user['id']
+                session['name'] = user['nombre']
+                session['email'] = user['email']
+                session['role'] = user['role'] 
                 session['acc'] = True
-                return redirect(url_for('main.dashboard'))            
-        return render_template('usr_login.html')
+                
+                return redirect(url_for('main.home'))
     return render_template('/auth/login.html')
+
 
 
 @main.route('/registrar/', methods=['GET', 'POST'])
@@ -87,9 +105,63 @@ def sign_in():
         }
 
         # Database Insert
-        result = db.insert('users', data)
+        result = insert('users', data)
 
         if result:
             return redirect(url_for('main.login'))
         
     return render_template('/auth/sign_in.html')
+
+
+# Registrarse como un dueño de una tienda
+@main.route('/associate/<user_id>', methods=['POST'])
+def own(user_id):
+
+    print(request.view_args)
+
+    if request.method == "POST":
+
+        user = {}
+        data = {}
+        body = {}
+
+        try:
+
+            body = json.loads(request.data)
+            user.update({'id': request.view_args['user_id']})
+
+            data = {'owner_id': user['id'], **(body) }
+
+            print("data", data)
+
+        except KeyError as e:
+            print("No enviaste suficientes parametros", e)
+            return {'status': False, 'error': 'Parametros Insuficientes'}
+
+        params = {'name': data['name']}
+
+        store =  search('stores', params)
+
+        if not store:
+
+            result = insert('stores', data)
+
+
+            if result:
+                
+                data['id'] = result
+
+                update('users', user, {'role': 'owner'})
+
+                return render_template('/home/home.html')
+            else:
+                return {'status': False, 'data': data, 'error': 'No se pudo crear el elemento'}
+
+    return render_template('/owner/associate.html')
+
+
+
+@main.route('/logout')
+def logout():
+   session.clear()
+   return redirect(url_for('main.home'))

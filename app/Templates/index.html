@@ -50,9 +50,17 @@
                     </ul>
 
                     <div class="d-flex btn-group">
+                        
+                        {% if userSession %}
+                        <a type="button" href="{{url_for('main.associate')}}"class="btn btn-outline-white">
+                            <i class="bi bi-person-badge"></i>
+                            {% if userRole=="client" %}Quiero ser propietario{% else %}Agregar otra tienda{% endif %}
+                        </a>
+                        <a type="button" href="{{url_for('main.logout')}}" class="btn btn-outline-orange" ><i class="bi bi-box-arrow-right"></i></a>
+                        {% else %}
                         <a type="button" href="{{url_for('main.login')}}" class="btn btn-outline-orange">Iniciar sesión</a>
                         <a type="button" href="{{url_for('main.sign_in')}}"class="btn btn-outline-white">Registrarse</a>
-                        <!-- <a type="button" href="#" class="btn btn-outline-orange">Cerrar sesión</a> -->
+                        {% endif %}
                     </div>
                 </div>
             </div>

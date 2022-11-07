@@ -1,0 +1,70 @@
+{% extends 'owner.html' %}
+
+{% block title %}Acceder{% endblock %}
+
+{% block navBarButtons %}
+<a type="button" href="{{url_for('main.logout')}}" class="btn btn-outline-orange" ><i class="bi bi-box-arrow-right"></i></a>
+{% endblock %}
+
+{% block body %}
+<section class="vh-100">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1" style="margin-top: 6rem;">
+
+                <form submit="submit" id="formularioAssociate">
+
+                    <div class="divider d-flex align-items-center my-4">
+                        <p class="text-center fw-bold mx-3 mb-0">Registra tu tienda con nosotros</p>
+                    </div>
+
+                    <!-- Name input -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="storeName">Nombre de la tienda</label>
+                        <input type="text" id="name" class="form-control form-control-md"
+                            placeholder="Ingresa el nombre de la tienda" name="name" required />
+                    </div>
+
+                    <!-- Addres input -->
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="address">Dirección</label>
+                                <input class="form-control form-control-md" type="text" id="address" name="address" placeholder="Direccion" required />
+                            </div>
+                        </div>
+                        <div class="col-md-2" >
+                            <div class="text-center text-lg-start mt-4 pt-2">
+                                <button type="button" onclick="verifyAddres()" class="btn btn-primary btn-md" style="padding-left: .5rem; padding-right: .5rem;">Verificar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Name input -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="image">Imagen</label>
+                        <input type="text" id="image" class="form-control form-control-md" placeholder="Ingresa url de la foto de tu tienda" name="image" required />
+                    </div>
+
+                    <!-- Description input -->
+                    <div class="form-outline">
+                        <label class="form-label" for="description">Descripción</label>
+                        <textarea class="form-control" id="description" name="description" rows="2"></textarea>
+                    </div>
+
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <button type="button" onclick="onSubmit({{userId}})" class="btn btn-primary btn-lg"
+                            style="padding-left: 2.5rem; padding-right: 2.5rem;">Asociarme</button>
+                    </div>
+
+                </form>
+            </div>
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                    class="img-fluid" alt="Sample image">
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
