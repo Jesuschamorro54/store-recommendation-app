@@ -13,6 +13,7 @@ function initMap() {
     center: { lat: 11.001333668461568, lng: -74.78350982480481 }, // Ubicacion por defecto
     zoom: 10,
     mapTypeControl: false,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
   });
 
   marker = new google.maps.Marker({
@@ -38,9 +39,6 @@ function initMap() {
   response.id = "response";
   response.innerText = "";
 
-  // responseDiv = document.createElement("div");
-  // responseDiv.id = "response-container";
-  // responseDiv.appendChild(response);
 
   const locationButton = document.createElement("button");
 
@@ -50,7 +48,6 @@ function initMap() {
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputText);
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(submitButton);
-  // map.controls[google.maps.ControlPosition.LEFT_TOP].push(responseDiv);
 
   map.addListener("click", (e) => {
     geocode({ location: e.latLng });
@@ -86,6 +83,7 @@ function currentLocation() {
         map.setZoom(17);
         marker.setPosition(pos);
         marker.setMap(map);
+        getStoresNearby(pos);
         
       },
       () => {
@@ -119,8 +117,13 @@ function geocode(request) {
     map.setCenter(geometry.location);
     marker.setPosition(geometry.location);
     marker.setMap(map);
-    // responseDiv.style.display = "block";
     response.innerText = JSON.stringify(result, null, 2);
+
+    let latlng = geometry.location.toString().replace(/\(|\)/g, '').split(', ')
+    let pos = {lat: parseFloat(latlng[0]), lng: parseFloat(latlng[1]) }
+    
+    getStoresNearby(pos);
+
     return results;
   }).catch((e) => {
     alert("Geocode was not successful for the following reason: " + e);
@@ -129,7 +132,11 @@ function geocode(request) {
 
 // Check if it is into the radius
 function arePointsNear(checkPoint, centerPoint, radio) {
-  var my = 40000 / 360;
+
+  // console.log("\ncenter: ", centerPoint)
+  // console.log("chek: : ", checkPoint)
+
+  var my = 4000 / 360;
   var mx = Math.cos(Math.PI * centerPoint.lat / 180.0) * my;
 
   var dx = Math.abs(centerPoint.lng - checkPoint.lng) * mx; // cateto x
@@ -139,6 +146,7 @@ function arePointsNear(checkPoint, centerPoint, radio) {
   // Para que el numero me de en metros se multiplica por 1000
   var result = Math.sqrt((dx * dx) + (dy * dy)) * 1000; 
   
+  console.log("Point Near: ", result, " ->",  result <= radio)
   return result <= radio
 }
 

@@ -1,5 +1,23 @@
 
-from .conecction_db import execute_query, connect_db
+from .conecction_db import execute_query, connect_db, default_fields
+
+def tuple_str(myTuple):
+    result = "("
+
+    for index, value in enumerate(myTuple):
+
+        restric = bool (len(myTuple)-1 == index)
+	
+        try:
+            value = int(value)
+        except:
+            pass
+            
+        result += f"'{value}'"  if type(value) is str else  f"{value}"
+
+        result += ", " if not restric else ""
+            
+    return result + ")"
 
 def evaluate_contidions(params):
     
@@ -9,17 +27,27 @@ def evaluate_contidions(params):
 
         condition = "WHERE "
         count = 0
+
         for field, value in params.items():
             
             if count > 0:
-                condition += "AND"
+                condition += " AND "
 
             try:
                 value = int(value)
             except:
                 pass
             
-            condition += f"{field} like '{value}'" if type(value) is str else f"{field} = {value}"
+            if type(value) is str:
+
+                condition += f"{field} like '{value}'"
+
+            elif type(value) is list:
+                
+                condition += f"{field} in {tuple_str(value)}"
+
+            else: 
+                condition += f"{field} = {value}"
             count += 1
     
     return condition
@@ -29,8 +57,8 @@ def select_query_build(table, params = None):
     
     str_fields = "*"
     if params:
-        fields = params.pop('fields') if 'fields' in params else '*'
-        str_fields = str(fields).replace("'", "`")
+        fields = params.pop('fields', "*")
+        str_fields = str(fields).replace("'", "`").replace("[", "").replace("]", "")
 
     condition = evaluate_contidions(params)
         
@@ -43,6 +71,10 @@ def select_query_build(table, params = None):
 
 def insert_query_build(table, data):
 
+    # Asignar campos por default
+    if table in default_fields:
+        data = { **default_fields[table], **data }
+        
     fields = tuple([field for field in data]) if type(data) is dict else tuple([field for field in data[0]])
     str_fields = str(fields).replace("'", "`")
     values = []

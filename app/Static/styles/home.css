@@ -33,17 +33,16 @@
     margin: 15px;
 }
 
-.featured-stores .card .card-body{
+.featured-stores .card .image-content {
+    display: flex;
+    flex-direction: column;
+    height: 15rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.featured-stores .card .card-body {
     border-top: 1px solid #ddd;
-}
-
-.featured-stores .card .card-body a {
-    margin-top: 10px;
-    background-color: var(--primary-color-dark);
-    transition: all 200ms;
-    border: none
-}
-
-.featured-stores .card .card-body a:hover {
-    background-color: var(--primary-color-hover);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }

@@ -1,4 +1,3 @@
-
 const urlApi = "http://127.0.0.1:5000/"
 const http = {
     get: async function (url) {
@@ -46,7 +45,6 @@ let latlng;
 let data = {name: '', address: '', lat: '', lng: '', image: '', description: ''};
 
 function initMap() {
-    console.log("iniciando")
     geocoder = new google.maps.Geocoder();
 }
 
@@ -85,8 +83,12 @@ function onSubmit(user_id) {
         if (element && field != 'address') data[field] = element.value;
     }
 
-    http.post(`associate/4`, data).then(response => {
+    http.post(`associate/${user_id}`, data).then(response => {
         console.log(response)
+
+        const {status, data} = response
+
+        if (status) location.href ="http://127.0.0.1:5000/home";
     })
 
     console.log(data)

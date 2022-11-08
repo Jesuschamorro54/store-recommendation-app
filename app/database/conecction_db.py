@@ -50,3 +50,13 @@ def execute_query (query, write = False):
         data = {}
         
     return data
+
+
+default_fields = {
+    'products': {
+        'name': '',
+        'promotion': '',
+        'description': '',
+        'image': '',
+    }
+}

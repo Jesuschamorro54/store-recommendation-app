@@ -1,0 +1,27 @@
+
+
+.list-group .list-group-item {
+    cursor: pointer;
+    border-radius: 0px !important;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    /* transition: background-color 200ms; */
+}
+
+.list-group .list-group-item:hover,
+.list-group .list-group-item.active {
+    color: var(--primary-textcolor-to-dark);
+    background-color: var(--primary-color-dark);
+}
+
+
+/* Notifications color */
+.list-group .list-group-item .bg-primary {
+    background-color: var(--primary-color-dark) !important;
+}
+
+.list-group .list-group-item:hover .bg-primary,
+.list-group .list-group-item.active .bg-primary {
+    color: var(--primary-textcolor-to-light) !important;
+    background-color: var(--secondary-color-dark) !important;
+}   

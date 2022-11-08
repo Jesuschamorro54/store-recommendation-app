@@ -13,6 +13,7 @@
     --secondary-color-light: #ffda6a;
     --secondary-color-normal: #ffcd39;
     --secondary-color-dark: #ffc107;
+    --secondary-color-ultra-dark: #e2af15;
 
 }
 
@@ -43,4 +44,52 @@ p {
     font-family: 'Oswald', sans-serif !important;
     margin: 0 !important;
     padding: 0 !important;
+}
+
+/* Backgroud */
+
+* .bg-primary {
+  color: var(--primary-textcolor-to-dark) !important;
+  background-color: var(--primary-color-dark) !important;
+}
+
+/* BUTTONS */
+
+* .btn-primary {
+  margin-top: 10px !important;
+  background-color: var(--primary-color-dark) !important;
+  transition: all 200ms !important;
+  border: none !important;
+}
+
+* .btn-primary:hover {
+  background-color: var(--primary-color-hover) !important;
+}
+
+
+* .btn-secondary {
+  color: var(--primary-textcolor-to-dark) !important;
+  border: 1px solid var(--secondary-color-dark) !important;
+  border-radius: 4px !important;
+  background-color: var(--secondary-color-dark) !important;
+  transition: all 300ms;
+}
+
+* .btn-secondary:hover {
+  color: var(--primary-textcolor-to-dark) !important;
+  border: 1px solid var(--secondary-color-ultra-dark) !important;
+  background-color: var(--secondary-color-ultra-dark) !important;
+}
+
+* .btn-outline-secondary {
+  color: var(--primary-textcolor-to-light) !important;
+  border: 1px solid var(--secondary-color-dark) !important;
+  border-radius: 4px !important;
+  background-color: transparent !important;
+  transition: all 300ms;
+}
+
+* .btn-outline-secondary:hover {
+  color: var(--primary-textcolor-to-legth) !important;
+  background-color: var(--secondary-color-dark) !important;
 }
