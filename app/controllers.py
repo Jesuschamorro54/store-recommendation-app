@@ -77,10 +77,91 @@ def products():
                 'products': [ product for product in products if product['store_id']==store['id'] ]
             })
 
-    print("STORES: ", stores)
+    # print("STORES: ", stores)
 
     return render_template('/owner/products.html', stores=stores)
 
+
+@main.route('/orders', methods=['GET'])
+@login_required
+def orders():
+
+    result = {'data': []}
+    stores = []
+    products = []
+    purchases = []
+
+    store_purchases = {}
+
+    params = {'owner_id': session['id'], 'fields': ['id', 'name', 'total_sales']}
+    stores = search('stores', params);
+
+    if stores:
+        params = {
+            'state': 0,
+            'store_id': [store['id'] for store in stores]
+        }
+
+        products = search('products', params)
+        purchases = search('purchases', params)
+
+        details_params = {'purchase_id': [purchase['id'] for purchase in purchases]}
+
+        purchase_detail = search('purchases_details', details_params)
+
+        # Escribir la cantidad de pedidos de cada tienda
+        for store in stores:
+            count = 0
+            for purchase in purchases:
+                count += 1 if purchase['store_id'] == store['id'] else 0
+
+            store['orders'] = count
+
+        for purchase in purchases:
+
+            data = {
+                'Purchase': purchase,
+                'Store': {},
+                'Detail': [],
+            }
+
+            data['Store'] = next( (store for store in stores if purchase['store_id']==store['id']), None )
+
+            for detail in purchase_detail:
+                if detail['purchase_id'] == purchase['id']:
+                    data['Detail'].append({
+                        **detail,
+                        'product_name': next( (product['name'] for product in products if product['id']==detail['product_id']), None ),
+                        'product_image': next( (product['image'] for product in products if product['id']==detail['product_id']), None )
+                    })
+
+            result['data'].append(data)
+    
+    if result['data']:
+        result['status'] = True
+
+    print("RESULT: ", result)
+
+    return render_template('/owner/orders.html', stores=stores, purchases = result['data'], len = len, )
+
+
+
+@main.route('/public/<store_id>/products', methods=['GET'])
+def public_products(store_id): 
+
+    print("args", request.view_args)
+
+    params = dict(request.view_args)
+
+    products = []
+
+    params = {'store_id': params['store_id']}
+    products = search('products', params)
+
+    if products:
+        return {'status': True, 'data': products}
+
+    return {'status': False, 'data': []}
 
 # METHODS AUTH ------------------------------------------------------------------------------------------
 
@@ -230,7 +311,88 @@ def addproduct(store_id):
             return {'status': False, 'data': data, 'error': 'No se pudo crear el elemento'}
 
 
-    return redirect(url_for('main.products'))
+    return {'status': True, 'data': data}
+
+
+@main.route('/purchases/<store_id>', methods=['POST'])
+@login_required
+def addpurchases(store_id):
+
+    if request.method == "POST":
+
+        user = {}
+        data = {}
+        body = {}
+
+        try:
+
+            body = json.loads(request.data)
+            user.update({'id': session['id']})
+
+            data = {
+                'user_id': user['id'],
+                'store_id': request.view_args['store_id'],
+                **(body) 
+            }
+
+            print("data: ", data)
+
+        except KeyError as e:
+            print("No enviaste suficientes parametros", e)
+            return {'status': False, 'error': 'Parametros Insuficientes'}
+        
+        extra_data = data.pop('extra_data', None)
+
+        purchase = insert('purchases', data)
+
+        if purchase:
+            print("result: ", purchase)
+            print("extra_data: ", extra_data)
+
+            for detail in extra_data['purchases_details']:
+                detail['purchase_id'] = int(purchase)
+
+            purchase_details = insert('purchases_details', extra_data['purchases_details']);
+
+            if purchase_details:
+                data['id'] = purchase
+
+                return {'status': True, 'data': data}
+
+        else:
+            return {'status': False, 'data': data, 'error': 'No se pudo crear el elemento'}
+
+
+    return {'status': False, 'data': data, 'error': 'Error al ejecutar la funcion'}
+
+
+@main.route('/purchases/<purchase_id>', methods=['PUT'])
+@login_required
+def update_purchase(purchase_id):
+
+    if request.method == "PUT":
+
+        data = {}
+        params = {}
+
+        try:
+
+            params['id'] = request.view_args.pop('purchase_id')
+            data = json.loads(request.data)
+
+        except KeyError as e:
+            print("No enviaste suficientes parametros", e)
+            return {'status': False, 'error': 'Parametros Insuficientes'}
+        
+        
+        result = update('purchases', params, data)
+
+        if not result:
+            return {'status': False, 'data': data, 'error': 'No se pudo crear el elemento'}
+
+        data['id'] = result
+
+    return {'status': True, 'data': data}
 
 
 @main.route('/stores', methods=['GET'])

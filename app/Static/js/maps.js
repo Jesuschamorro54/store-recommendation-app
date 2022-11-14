@@ -75,10 +75,11 @@ function currentLocation() {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
-
         
-        infoWindow.open(map);
+        formattedAddress(pos.lat, pos.lng)
 
+        infoWindow.open(map);
+        
         map.setCenter(pos);
         map.setZoom(17);
         marker.setPosition(pos);
@@ -101,6 +102,7 @@ function clear() {
   // responseDiv.style.display = "none";
 }
 
+var userLocation = "";
 function geocode(request) {
   clear();
 
@@ -110,6 +112,9 @@ function geocode(request) {
     const { results } = result;
     
     const { geometry, types, formatted_address} = results[0];
+
+    console.log(results)
+    userLocation = formatted_address;
 
     zoom = (formatted_address.includes('Cl') || formatted_address.includes('Cra') || formatted_address.includes('#')) ? 17 : 10
 
@@ -130,6 +135,18 @@ function geocode(request) {
   });
 }
 
+function formattedAddress(lat, lng){
+  var latlng = new google.maps.LatLng(lat, lng);
+
+  geocoder.geocode({'latLng': latlng}, function(results, status) {
+    if(status == google.maps.GeocoderStatus.OK) {
+      if (results[1]) {
+        userLocation = results[1].formatted_address;
+      }
+    }
+  });
+}
+
 // Check if it is into the radius
 function arePointsNear(checkPoint, centerPoint, radio) {
 
@@ -146,7 +163,7 @@ function arePointsNear(checkPoint, centerPoint, radio) {
   // Para que el numero me de en metros se multiplica por 1000
   var result = Math.sqrt((dx * dx) + (dy * dy)) * 1000; 
   
-  console.log("Point Near: ", result, " ->",  result <= radio)
+  // console.log("Point Near: ", result, " ->",  result <= radio)
   return result <= radio
 }
 

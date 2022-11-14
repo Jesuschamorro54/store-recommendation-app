@@ -1,0 +1,124 @@
+{% extends 'owner.html' %}
+
+{% block navBarButtons %}
+{% if userSession %}
+<a type="button" href="{{url_for('main.associate')}}" class="btn btn-outline-white">
+    <i class="bi bi-person-badge"></i>
+    {% if userRole=="client" %}Quiero ser propietario{% else %}Agregar otra tienda{% endif %}
+</a>
+<a type="button" href="{{url_for('main.logout')}}" class="btn btn-outline-orange"><i
+        class="bi bi-box-arrow-right"></i></a>
+{% else %}
+<a type="button" href="{{url_for('main.login')}}" class="btn btn-outline-orange">Iniciar sesión</a>
+<a type="button" href="{{url_for('main.sign_in')}}" class="btn btn-outline-white">Registrarse</a>
+{% endif %}
+{% endblock %}
+
+{% block customBody %}
+<div class="row p-2 bg-white mt-5">
+
+    <!-- LISTADO DE TIENDAS -->
+    <div class="col-md-3 mt-1 mb-3">
+        <div class="row align-items-start">
+            <h3 class="mb-2">Mis tiendas</h3>
+
+            <ol class="list-group list-group p-2 border rounded" style="overflow-y: auto; max-height: 25rem;">
+                {% for store in stores %}
+                <li id="store-{{store['id']}}-order" onclick="openPurchases({{store}})"
+                    class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">{{store['name']}}</div>
+                    </div>
+                    <span class="badge bg-primary rounded-pill">{{ store['orders']}}</span>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+
+    <!-- listado de productos por tienda -->
+    <div class="col-md-9 mt-1">
+        <div class="row align-items-start">
+
+            <!-- TITULO Y BOTON -->
+            <div class="container row align-items-center mb-2" style="margin-left: 5px;">
+                <h3 class="col-md-10">Pedidos</h3>
+            </div>
+
+            <!-- LISTADO -->
+            <div class="container col">
+                <div class="d-flex row" style="min-height: 25rem;">
+
+                    <!-- CONTENEDOR DE PRODUCTOS POR CADA TIENDA -->
+                    {% for store in stores %}
+                    <div id="products-store-{{store['id']}}-order" class="col-md-10"
+                        style="overflow-y:scroll; max-height: 35rem; display: none; width: 100%; background: #ededed; margin: 0 18px;">
+
+                        <!-- PRODUCTO -->
+                        {% for item in purchases %}
+                            {% if item['Purchase']['store_id']==store['id'] %}
+                                <div class="accordion p-2" id="accordionExample">
+                                    <div id="accordion-item-{{item['Purchase']['id']}}" class="accordion-item">
+                                        <h2 class="accordion-header" id="headingOne">
+                                            <div class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{item['Purchase']['id']}}" aria-expanded="false" aria-controls="collapseOne">
+                                                <span>
+                                                    <p>Dirección: {{item['Purchase']['address']}}</p>
+                                                    <p>Productos: {{len(item['Detail'])}}</p>
+                                                    <p>Total: {{item['Purchase']['total']}}</p>
+
+                                                    <button class="btn btn-primary" type="button" onclick="setOrderStatus({{item['Purchase']['id']}})">Listo</button>
+                                                </span>
+                                            </div>
+                                        </h2>
+                                        <div id="collapse-{{item['Purchase']['id']}}" class="accordion-collapse collapse" aria-labelledby="heading-{{item['Purchase']['id']}}" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <!-- AQUI LOS PRODUCTOS -->
+                                                {% for product in item['Detail'] %}
+                                                <div class="row bg-white border rounded p-2" style="margin: 5px;">
+                            
+                                                    <div class="col-md-3 mt-1">
+                                                        <img class="img-fluid img-responsive rounded product-image"
+                                                            src="{{product['product_image']}}">
+                                                    </div>
+                            
+                                                    <div class="col-md-6 mt-1">
+                                                        <h5>{{product['product_name']}}</h5>
+                                                        <p class="text-justify text-truncate para mb-0">
+                                                            {{item['Purchase']['address']}}<br><br>
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        class="align-items-center align-content-center col-md-3 border-left mt-1">
+                            
+                                                        <div class="d-flex flex-row align-items-center">
+                                                            <h4 class="mr-1">${{item['Purchase']['total']}}</h4>
+                                                        </div>
+                            
+                                                        <span style="display: flex; align-items: baseline;">
+                                                            <h5 class="text" style="font-size: 14px; margin-right: 5px;">
+                                                                Cantidad: </h5>
+                                                            <h6 class="text-success">{{product['amount']}}</h6>
+                                                        </span>
+                            
+                            
+                                                        <div class="d-flex flex-column mt-4">
+                                                            <!-- <button class="btn btn-secondary btn-sm" type="button">Editar</button> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

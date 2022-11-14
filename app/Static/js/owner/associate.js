@@ -76,7 +76,7 @@ function verifyAddres() {
 }
 
 function onSubmit(user_id) { 
-    console.log("id", user_id)
+    // console.log("id", user_id)
     
     for (field in data){
         var element = document.getElementById(field)

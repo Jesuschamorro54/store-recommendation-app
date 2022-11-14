@@ -19,6 +19,7 @@ def tuple_str(myTuple):
             
     return result + ")"
 
+
 def evaluate_contidions(params):
     
     condition = ""
@@ -103,7 +104,12 @@ def update_query_build(table, params, data):
     count = 1
     for key, value in data.items():
 
-        set_data += f"{key} = '{value}'"
+        try:
+            value = int(value)
+        except:
+            pass
+
+        set_data += f"{key} = {value}" if type(value) is int else f"{key} = '{value}'"
         set_data += ", " if count < len(data.keys()) else " "
 
     condition = evaluate_contidions(params)

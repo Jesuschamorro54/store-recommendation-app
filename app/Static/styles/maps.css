@@ -39,7 +39,7 @@
   transform: scale(.9);
 }
 
-input[type=text] {
+#map input[type=text] {
   background-color: #fff;
   border: 0;
   border-radius: 2px;
@@ -54,7 +54,7 @@ input[type=text] {
   border-radius: 30px;
 }
 
-input[type=button] {
+#map input[type=button] {
   background-color: #fff;
   border: 0;
   border-radius: 2px;
@@ -68,25 +68,28 @@ input[type=button] {
   margin-left: 5px;
 }
 
-input[type=button]::before {
+#map input[type=button]::before {
   content: "\f52a";
 }
 
-input[type=button]:hover {
+#map input[type=button]:hover {
   background: rgb(235, 235, 235);
 }
-input[type=button].button-primary {
+
+#map input[type=button].button-primary {
   background-color: #1a73e8;
   color: white;
 }
-input[type=button].button-primary:hover {
+
+#map input[type=button].button-primary:hover {
   background-color: #1765cc;
 }
-input[type=button].button-secondary {
+
+#map input[type=button].button-secondary {
   background-color: white;
   color: #1a73e8;
 }
-input[type=button].button-secondary:hover {
+#map input[type=button].button-secondary:hover {
   background-color: #d2e3fc;
 }
 

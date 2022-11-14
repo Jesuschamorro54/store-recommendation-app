@@ -2,6 +2,7 @@
 let last, current = null
 let productData = { name: '', price: 0, image: '', description: ''};
 
+
 function openProducts(store) {
 
     last = current;
@@ -37,7 +38,13 @@ function addProduct() {
 
     if (current){
         http.post(`products/${store_id}`, productData).then(response => {
-            console.log("Respuesta - Añadir producto\n", response)
+            const {status, data} = response 
+
+            if (status) {
+                document.getElementById("formularioProducto").reset();
+
+                setTimeout(() => document.getElementById("closeAddModal").click(), 1000);
+            }
         })
     }
 

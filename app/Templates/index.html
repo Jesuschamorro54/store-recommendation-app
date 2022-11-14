@@ -40,19 +40,22 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         {% if userRole=="client" or not userSession %}
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Recientes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Tiendas cercanas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Mejor calidad</a>
-                        </li>
+                            <!-- <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="#">Recientes</a>
+                            </li> -->
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" onclick="currentLocation()" style="cursor: pointer;">Tiendas cercanas</a>
+                            </li>
+                            <!-- <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="#">Mejor calidad</a>
+                            </li> -->
                         {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/products">Gestionar mis productos</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="/products">Gestionar mis productos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="/orders">Gestionar pedidos</a>
+                            </li>
                         {% endif %}
                     </ul>
 

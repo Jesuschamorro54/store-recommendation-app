@@ -38,7 +38,7 @@ def execute_query (query, write = False):
             cursor.execute(query)
             data = cursor.lastrowid if write else cursor.fetchall()
 
-            if "UPDATE" in query and data:
+            if "UPDATE" in query:
                 data = True
             
             if write:

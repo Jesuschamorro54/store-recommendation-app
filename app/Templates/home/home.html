@@ -6,7 +6,7 @@
         <img src="{{url_for('static', filename='img/banner.webp')}}">
 
         <div class="input-group">
-            <input class="form-control" type="search" id="bannerSearch" placeholder="Buscar tiendas">
+            <input class="form-control" type="search" id="bannerSearch" placeholder="Buscar tiendas" onclick="initSearch({{stores}})" onchange="search()">
             <button class="btn btn-warning" type="button"><i class="bi bi-search"></i></button>
         </div>
     </div>
@@ -16,7 +16,7 @@
 
     <h3 class="text-center" style="margin-bottom: 20px !important;">Tiendas más destacadas por nuestro publico</h3>
 
-    <div class="row content-fluid justify-content-md-center cards3" style="justify-content: center;">
+    <div id="recommended-stores-content" class="row content-fluid justify-content-md-center cards3" style="justify-content: center;">
         
         {% for store in stores %}
         <div class="card pt-2" style="width: 18rem;">
@@ -66,4 +66,38 @@
         </div>
     </div>
 </div>
+
+<!-- MODAL DE ORDENAR EL PEDIDO -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addModalLabel">Realizar un pedido</h1>
+
+                <span id="message"></span>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3 p-2">
+                    <label for="address" class="col-form-label">Dirección</label>
+                    <input type="text" name="address" class="form-control" id="input-address">
+                </div>
+                <div class="container col">
+                    <div class="d-flex row" id="list-of-products">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <span id="total">Total: $0</span>
+
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="margin-top: 10px;" id="closeAddModal">Cencelar</button>
+                <button type="button" onclick="purchase()" class="btn btn-primary">Comprar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
