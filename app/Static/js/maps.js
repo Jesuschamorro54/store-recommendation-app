@@ -10,7 +10,7 @@ let response;
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 11.001333668461568, lng: -74.78350982480481 }, // Ubicacion por defecto
+    center: { lat: 11.001333668461568, lng: -74.78350982480481 }, // Ubicacion por defecto barranquilla
     zoom: 10,
     mapTypeControl: false,
     mapTypeId: google.maps.MapTypeId.ROADMAP

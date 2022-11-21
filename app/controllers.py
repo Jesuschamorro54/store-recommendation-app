@@ -1,6 +1,6 @@
 import json
 import functools
-from flask import ( escape, render_template, redirect, blueprints, session, request, jsonify, url_for,)
+from flask import ( render_template, redirect, blueprints, session, request, url_for,)
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from database.database import insert, search, update
@@ -181,11 +181,13 @@ def login():
 
         user = search('users', params)[0]
         
+        # Si el usuario existe
         if user:
             
             password = password + email
             vpw = check_password_hash(user['password'] , password)
 
+            # Si las contraseñas son iguales
             if vpw:
                 session['id'] = user['id']
                 session['name'] = user['nombre']
@@ -318,7 +320,7 @@ def addproduct(store_id):
 @login_required
 def addpurchases(store_id):
 
-    if request.method == "POST":
+    if request.method == "POST": 
 
         user = {}
         data = {}

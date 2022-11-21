@@ -62,8 +62,8 @@ def select_query_build(table, params = None):
         str_fields = str(fields).replace("'", "`").replace("[", "").replace("]", "")
 
     condition = evaluate_contidions(params)
-        
-    
+
+
     sql = f"SELECT {str_fields} FROM {table} {condition}"
 
     return sql
